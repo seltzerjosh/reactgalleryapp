@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
@@ -6,7 +6,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import axios from 'axios';
 import apiKey from "./config";
-import Photo from "./Components/Photo";
 import PhotoContainer from './Components/PhotoContainer';
 
 class App extends React.Component {
@@ -26,7 +25,7 @@ class App extends React.Component {
     }
 
     performSearch = (query = 'cats') => {
-        axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=sunsets&per_page=24&format=json&nojsoncallback=1`)
+        axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
             .then(response => {
                 this.setState({
                     pics: response.data.photos.photo,
@@ -39,13 +38,11 @@ class App extends React.Component {
     }
 
     render() {
-        console.log("End");
-        console.log(this.state.pics);
-        console.log("Start");
+        console.log(this.performSearch);
         return (
             <BrowserRouter>
                 <div className="container">
-                    <SearchForm/>
+                    <SearchForm onSearch={this.performSearch}/>
                     <Switch>
                         <Nav/>
                         <Route exact path="/teachers">
