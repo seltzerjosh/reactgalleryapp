@@ -3,20 +3,60 @@ import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-const App = () => (
-    <BrowserRouter>
-        <div className="container">
-            <SearchForm />
-            <Switch>
-                <Route exact path="/" component={Nav}/>
-                <Route path="/about" render={() => <Nav title='About'/>}/>
-                <Route exact path="/teachers">
-                    <Nav />
-                </Route>
-                <Route path="/courses" component={Nav}/>
-            </Switch>
-        </div>
-    </BrowserRouter>
-);
+
+import axios from 'axios';
+import apiKey from "./config";
+import Photo from "./Components/Photo";
+import PhotoContainer from './Components/PhotoContainer';
+
+class App extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            pics: [],
+            loading: true
+        }
+    }
+
+    apiKey = apiKey;
+
+    componentDidMount() {
+        this.performSearch();
+    }
+
+    performSearch = (query = 'cats') => {
+        axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=sunsets&per_page=24&format=json&nojsoncallback=1`)
+            .then(response => {
+                this.setState({
+                    pics: response.data.photos.photo,
+                    loading: false
+                })
+            })
+            .catch(error => {
+                console.log('Error fetching and parsing data', error);
+            });
+    }
+
+    render() {
+        console.log("End");
+        console.log(this.state.pics);
+        console.log("Start");
+        return (
+            <BrowserRouter>
+                <div className="container">
+                    <SearchForm/>
+                    <Switch>
+                        <Nav/>
+                        <Route exact path="/teachers">
+                        </Route>
+                        <Route path="/courses" component={Nav}/>
+                    </Switch>
+                    <PhotoContainer data={this.state.pics} />
+                </div>
+            </BrowserRouter>
+        );
+    }
+}
 
 export default App;
