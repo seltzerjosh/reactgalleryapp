@@ -5,13 +5,13 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 const Nav = () => (
-        <nav className='main-nav'>
+        <div className='main-nav'>
             <ul>
-                <li><NavLink exact to="/Cats">Cats</NavLink></li>
-                <li><NavLink to="/Dogs">Dogs</NavLink></li>
-                <li><NavLink to="/Computers">Computers</NavLink></li>
+                <li><NavLink to="/cat">Cats</NavLink></li>
+                <li><NavLink to="/bat">Bats</NavLink></li>
+                <li><NavLink to="/hat">Hats</NavLink></li>
             </ul>
-        </nav>
+        </div>
 );
 
 export default Nav;

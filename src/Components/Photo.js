@@ -9,4 +9,3 @@ const Photo = props => (
 );
 
 export default Photo;
-// Replace src with {props.url} and figure out alt

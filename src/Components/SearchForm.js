@@ -1,20 +1,26 @@
 //Stateful component
 import React, {Component} from 'react';
+import {withRouter} from 'react-router';
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
 
     state = {
-        searchText: ''
+        query: ''
     }
 
     onSearchChange = e => {
-        this.setState({ searchText: e.target.value });
+        this.setState({
+            inquiryValue: e.target.value
+        });
     }
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.onSearch(this.query.value);
+        let url = `/search/${this.state.inquiryValue}`;
         e.currentTarget.reset();
+        this.props.history.push(url);
+
     }
 
     render() {
@@ -24,7 +30,7 @@ export default class SearchForm extends Component {
                        onChange={this.onSearchChange}
                        name="search"
                        ref={(input) => this.query = input}
-                       placeholder="Search..." />
+                       placeholder="Search..."/>
                 <button type="submit" className="search-button">
                     <svg fill="#fff" height="24" viewBox="0 0 23 23" width="24" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -35,5 +41,6 @@ export default class SearchForm extends Component {
             </form>
         );
     }
-
 }
+
+export default withRouter(SearchForm);
