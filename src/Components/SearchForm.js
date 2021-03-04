@@ -1,13 +1,10 @@
-//Stateful component
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 
+//Search form utilizing withRouter
 class SearchForm extends Component {
 
-    state = {
-        query: ''
-    }
-
+    //set state to query value
     onSearchChange = e => {
         this.setState({
             inquiryValue: e.target.value
@@ -15,12 +12,15 @@ class SearchForm extends Component {
     }
 
     handleSubmit = e => {
+        //prevent default behavior of form submit
         e.preventDefault();
         this.props.onSearch(this.query.value);
+        //define url to update
         let url = `/search/${this.state.inquiryValue}`;
+        //reset the form
         e.currentTarget.reset();
+        //update url
         this.props.history.push(url);
-
     }
 
     render() {
